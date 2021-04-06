@@ -11,6 +11,12 @@
     margin-bottom: 10px !important;
 }
 
+.picture{
+    height: 200px !important;
+    width: 400px !important;
+    object-fit: cover !important;
+}
+
 /* .image:active{
         background-color: black!important;
 } */
@@ -22,6 +28,11 @@
 .icon{
     display: inline-block;
     font-size: 100px !important;
+}
+
+.delete{
+    cursor: pointer;
+    font-size: 75px !important;
 }
 
 .textField{

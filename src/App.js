@@ -1,18 +1,20 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import MapView from './MapView';
-import AddView from './AddView';
-import Navbar from './Navbar';
+import MapView from "./MapView";
+import AddView from "./AddView";
+import DetailView from "./DetailView";
+import Navbar from "./Navbar";
 
 function App() {
   return (
     <div className="App">
       <Router>
-      <Navbar/>
+        <Navbar />
         <Switch>
           <Route exact from="/" component={MapView} />
           <Route exact path="/new" component={AddView} />
+          <Route exact path="/:id" component={DetailView} />
         </Switch>
       </Router>
     </div>
@@ -44,7 +46,7 @@ export default App;
 //     iconAnchor:   [22, 25], // point of the icon which will correspond to marker's location
 //     popupAnchor:  [0, -25]
 //   });
-  
+
 //   addMarker = (e) => {
 //     const {markers} = this.state
 //     markers.push(this.state.center)
@@ -57,10 +59,10 @@ export default App;
 //       <div className="map-container">
 //         <button onClick={this.addMarker} className="btn">+</button>
 //         <div className="center"></div>
-//       <MapContainer 
+//       <MapContainer
 //         className="map"
 //         minZoom= {8}
-//         zoom={20} 
+//         zoom={20}
 //         center = {this.state.center}
 //         whenReady={(map) => {
 //           if ('geolocation' in navigator) {
@@ -92,7 +94,7 @@ export default App;
 //           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 //           url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
 //         ></TileLayer>
-//         {this.state.markers.map((position, idx) => 
+//         {this.state.markers.map((position, idx) =>
 //           <Marker key={`marker-${idx}`} icon={this.fence} position={position}>
 //           <Popup>
 //             <span>Title<br/></span>

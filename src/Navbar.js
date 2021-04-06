@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { Link, useHistory} from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
@@ -17,9 +17,9 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import MapIcon from '@material-ui/icons/Map';
-import TimelineIcon from '@material-ui/icons/Timeline';
-import ListIcon from '@material-ui/icons/List';
+import MapIcon from "@material-ui/icons/Map";
+import TimelineIcon from "@material-ui/icons/Timeline";
+import ListIcon from "@material-ui/icons/List";
 
 const drawerWidth = 320;
 
@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     fontSize: "20px",
-    color: 'gray',
+    color: "gray",
   },
 }));
 
@@ -103,27 +103,23 @@ function Navbar() {
   const [open, setOpen] = React.useState(false);
 
   const navigate = (index) => {
-    switch(index) {
+    switch (index) {
       case 2:
-        history.push("/future")
-        handleDrawerClose()
-        console.log(index)
+        history.push("/future");
+        handleDrawerClose();
         break;
       case 1:
-        history.push("/list")
-        handleDrawerClose()
-        console.log(index)
+        history.push("/list");
+        handleDrawerClose();
         break;
       case 0:
-        history.push("/")
-        handleDrawerClose()
-        console.log(index)
+        history.push("/");
+        handleDrawerClose();
         break;
       default:
-        console.log(index)
         break;
     }
-  }
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -175,33 +171,41 @@ function Navbar() {
         <Divider />
         <List>
           {["Map", "List", "Future"].map((text, index) => (
-            <div>
-              <ListItem button onClick={() => navigate(index)} key={text}>
-                <ListItemIcon>
-                  {index === 0 ? <MapIcon /> : null }
-                  {index === 1 ? <ListIcon /> : null}
-                  {index === 2 ? <TimelineIcon /> : null}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-              {/* <Divider/> */}
-            </div>
+            <ListItem button onClick={() => navigate(index)} key={index}>
+              <ListItemIcon>
+                {index === 0 ? <MapIcon /> : null}
+                {index === 1 ? <ListIcon /> : null}
+                {index === 2 ? <TimelineIcon /> : null}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
           ))}
         </List>
 
         <div className={classes.footer}>
           <Divider />
           <br />
-          <Link to="/about-us" onClick={handleDrawerClose} className={classes.link}>
+          <Link
+            to="/about-us"
+            onClick={handleDrawerClose}
+            className={classes.link}
+          >
             About us
           </Link>
           <br />
-          <Link to="/privacy" onClick={handleDrawerClose} className={classes.link}>
+          <Link
+            to="/privacy"
+            onClick={handleDrawerClose}
+            className={classes.link}
+          >
             Privacy
           </Link>
           <br />
           <br />
-          <span>© 2021-2022, Work in progress. <br/>All rights reserved.</span>
+          <span>
+            © 2021-2022, Work in progress. <br />
+            All rights reserved.
+          </span>
           <br />
           <br />
         </div>
