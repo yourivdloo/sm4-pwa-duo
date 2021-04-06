@@ -1,0 +1,43 @@
+.map {
+    height:92vh;
+  }
+
+  .center{
+    z-index: 999;
+    background-color: rgba(45, 45, 255, 0.651);
+    border-radius:90px;
+    width:15px;
+    height:15px;
+    border: solid rgb(255, 255, 255);
+    border-width: 1px;
+    position: absolute;
+      top:8vh;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+  }
+  
+  .btn{
+    position:absolute;
+    z-index:999;
+    bottom: 3%;
+    right: 1.25%;
+    width: 60px;
+    height: 60px;
+    border-radius: 90px;
+    border-width: 1px;
+    border-color: rgb(0, 0, 0);
+    color: white;
+    outline: none;
+    font-size:45px;
+    background-color:rgba(7, 23, 255, 0.555);
+    cursor: pointer;
+  }
+
+  .btn2{
+    position:absolute;
+    z-index:999;
+    bottom:3%;
+    right: 5%;
+  }
