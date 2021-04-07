@@ -12,7 +12,7 @@
 /build
 
 # constants
-/src/constants.js
+/constants.js
 
 # misc
 .DS_Store

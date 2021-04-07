@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import L from 'leaflet';
-import './MapView.css';
-import fence from './assets/fence.png';
-import pin from './assets/pin.png';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { Link } from 'react-router-dom'
-import firebase from 'firebase/app';
+import React, { Component } from "react";
+import L from "leaflet";
+import "./MapView.css";
+import fence from "./assets/fence.png";
+import pin from "./assets/pin.png";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { Link } from "react-router-dom";
+import firebase from "firebase/app";
 import "firebase/firestore";
-import constants from "./constants"
+import constants from "./constants";
 
 class MapView extends Component {
   constructor() {
     super();
     this.state = {
       markers: [],
-      center: {lat: 51.505, lng: -0.09},
-      map: null
+      center: { lat: 51.505, lng: -0.09 },
+      map: null,
     };
 
-    this.goToLocation = this.goToLocation.bind(this)
+    this.goToLocation = this.goToLocation.bind(this);
   }
 
   async componentDidMount() {
@@ -30,47 +30,47 @@ class MapView extends Component {
 
     let data = await db.collection("pins").get();
 
-    let items = data.docs.map(doc => {
+    let items = data.docs.map((doc) => {
       return {
         title: doc.data().title,
         description: doc.data().description,
         location: doc.data().location,
         startDate: doc.data().startdate,
         endDate: doc.data().enddate,
-        id: doc.id
+        id: doc.id,
       };
-    })
+    });
 
-    this.setState({ markers: items })
+    this.setState({ markers: items });
   }
 
   fence = L.icon({
     iconUrl: fence,
     iconSize: [46.3125, 51.5625], // size of the icon
     iconAnchor: [22, 25], // point of the icon which will correspond to marker's location
-    popupAnchor: [0, -25]
+    popupAnchor: [0, -25],
   });
 
   goToLocation() {
     const self = this;
-    if ('geolocation' in navigator) {
+    if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (location) {
         let latitude = location.coords.latitude;
         let longitude = location.coords.longitude;
 
         // map.target.panTo(new L.LatLng(latitude, longitude))
-        self.state.map.target.panTo(new L.LatLng(latitude, longitude))
+        self.state.map.target.panTo(new L.LatLng(latitude, longitude));
 
         var marker = L.marker([latitude, longitude], {
           icon: L.icon({
             iconUrl: pin,
             iconSize: [24, 38],
             iconAnchor: [12.5, 40],
-            popupAnchor: [0, -50]
-          })
+            popupAnchor: [0, -50],
+          }),
         }).addTo(self.state.map.target);
-        marker.bindPopup("Your current location")
-        marker.openPopup()
+        marker.bindPopup("Your current location");
+        marker.openPopup();
       });
     }
   }
@@ -79,13 +79,15 @@ class MapView extends Component {
     const self = this;
     return (
       <div className="map-container">
-        <Link to={{
-          pathname: "/new",
-          state: {
-            latitude: self.state.center.lat,
-            longitude: self.state.center.lng
-          }
-        }} >
+        <Link
+          to={{
+            pathname: "/new",
+            state: {
+              latitude: self.state.center.lat,
+              longitude: self.state.center.lng,
+            },
+          }}
+        >
           <button className="btn">+</button>
         </Link>
         {/* <button onClick={this.goToLocation} className="btn2">Get location</button> */}
@@ -96,31 +98,39 @@ class MapView extends Component {
           zoom={20}
           center={this.state.center}
           whenReady={(map) => {
-            this.setState({ map: map })
+            this.setState({ map: map });
             map.target.on("drag", function (e) {
-              self.setState({ center: map.target.getCenter() })
+              self.setState({ center: map.target.getCenter() });
             });
 
             map.target.on("zoom", function (e) {
-              self.setState({ center: map.target.getCenter() })
-            })
+              self.setState({ center: map.target.getCenter() });
+            });
 
-            setTimeout(() => { this.goToLocation() }, 400);
+            setTimeout(() => {
+              this.goToLocation();
+            }, 400);
           }}
         >
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+            url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
           ></TileLayer>
-          {this.state.markers.map((position, idx) =>
-            <Marker key={`marker-${idx}`} icon={this.fence} position={[position.location._lat, position.location._long]}>
+          {this.state.markers.map((position, idx) => (
+            <Marker
+              key={`marker-${idx}`}
+              icon={this.fence}
+              position={[position.location._lat, position.location._long]}
+            >
               <Popup>
-                <Link to={"/" + position.id}>{position.title}<br /></Link>
+                <Link to={"/" + position.id}>
+                  {position.title}
+                  <br />
+                </Link>
               </Popup>
             </Marker>
-          )}
+          ))}
         </MapContainer>
-
       </div>
     );
   }

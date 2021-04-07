@@ -12,8 +12,8 @@
 }
 
 .picture{
-    height: 200px !important;
-    width: 400px !important;
+    height: 180px !important;
+    width: 300px !important;
     object-fit: cover !important;
 }
 
@@ -23,6 +23,7 @@
 
 .content{
     text-align: center;
+    height: 91vh;
 }
 
 .icon{

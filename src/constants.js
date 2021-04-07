@@ -18,9 +18,12 @@ const firebaseConfig = {
   measurementId: "G-XM1TD5XYWP",
 };
 
+const defaultImg = "https://firebasestorage.googleapis.com/v0/b/work-in-progress-b5e09.appspot.com/o/images%2Funder-928246_1280.jpg?alt=media&token=e9bed41d-7c53-4067-a2f6-2cd35471d456o"
+
 const toExport = {
   icon,
   firebaseConfig,
+  defaultImg
 };
 
 export default toExport;

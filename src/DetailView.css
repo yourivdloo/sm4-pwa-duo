@@ -1,0 +1,62 @@
+.delete-btn{
+    margin-left: 10px !important
+}
+
+.img{
+    width: 100vw;
+    max-height: 50vh;
+    object-fit: cover;
+}
+
+.content{
+    text-align:center;
+    margin-bottom: 5px;
+    height: 91vh;
+}
+
+.back{
+    position:absolute !important;
+    z-index:999 !important;
+    top:8vh !important;
+    left:1vh !important;
+    background-color: rgba(189, 189, 189, 0.774);
+    border-radius: 20%;
+    outline: none;
+    margin-top: 1vh !important;
+    /* height: 10vw !important;
+    width: 10vw !important; */
+}
+
+.back-icon{
+    font-size: 5vw !important;
+    padding-left: 25% !important;
+}
+
+.title{
+    display:inline-block;
+    margin-left: 4%;
+    /* text-align:left; */
+    float:left;
+    /* width:40%; */
+}
+
+.timestamp{
+    display:inline-block;
+    float:right;
+    margin-right: 4%;
+    margin-left: 3.75%;
+    /* width:40%; */
+    text-align: left;
+}
+
+.floater{
+    /* width:85%;
+    display: inline-block; */
+}
+
+.actions{
+    clear:both;
+}
+
+.text{
+}
