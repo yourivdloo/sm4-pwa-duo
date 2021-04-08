@@ -5,9 +5,7 @@ import fence from "./assets/fence.png";
 import pin from "./assets/pin.png";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Link } from "react-router-dom";
-import firebase from "firebase/app";
-import "firebase/firestore";
-import constants from "./constants";
+import firebaseService from "./FirebaseService";
 
 class MapView extends Component {
   constructor() {
@@ -22,24 +20,7 @@ class MapView extends Component {
   }
 
   async componentDidMount() {
-    if (firebase.apps.length === 0) {
-      firebase.initializeApp(constants.firebaseConfig);
-    }
-
-    let db = firebase.firestore();
-
-    let data = await db.collection("pins").get();
-
-    let items = data.docs.map((doc) => {
-      return {
-        title: doc.data().title,
-        description: doc.data().description,
-        location: doc.data().location,
-        startDate: doc.data().startdate,
-        endDate: doc.data().enddate,
-        id: doc.id,
-      };
-    });
+    let items = await firebaseService.findAll();
 
     this.setState({ markers: items });
   }

@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import MapView from "./MapView";
 import AddView from "./AddView";
 import DetailView from "./DetailView";
+import ListView from "./ListView";
+import EditView from "./EditView";
 import Navbar from "./Navbar";
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
         <Switch>
           <Route exact from="/" component={MapView} />
           <Route exact path="/new" component={AddView} />
+          <Route exact path="/list" component={ListView} />
+          <Route exact path="/edit/:id" component={EditView} />
           <Route exact path="/:id" component={DetailView} />
         </Switch>
       </Router>

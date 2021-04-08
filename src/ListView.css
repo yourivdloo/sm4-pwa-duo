@@ -1,0 +1,33 @@
+.card{
+    max-height: 25vw;
+    cursor: pointer;
+}
+
+.cards{
+    height: 92vh;
+}
+
+.textLeft{
+    float: left;
+    text-align:left;
+    max-height: 22vw;
+    width: 70%;
+    overflow-y: auto;
+    /* margin-bottom: 5%; */
+}
+
+.imageRight{
+    float: right;
+    text-align: right;
+    width: 30%;
+}
+
+.actualImage{
+    height: 20vw;
+    width: 95%;
+    object-fit: cover;
+}
+
+.content{
+    overflow-y: auto;
+}

@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import "firebase/storage";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import PlaceIcon from "@material-ui/icons/Place";
+import firebaseService from "./FirebaseService";
 
 class DetailView extends Component {
   constructor(props) {
@@ -27,61 +28,23 @@ class DetailView extends Component {
   }
 
   async componentDidMount() {
-    if (firebase.apps.length === 0) {
-      firebase.initializeApp(constants.firebaseConfig);
+    let item = await firebaseService.findById(this.props.match.params.id);
+
+    var address = "Unknown location"
+    
+    if(item[0]){
+      address = await firebaseService.getLocation(item[0].location._lat, item[0].location._long)
+
+      item[0].startDate = item[0].startDate.replace("T", ", ")
+      item[0].endDate = item[0].endDate.replace("T", ", ")
     }
-
-    let db = firebase.firestore();
-
-    let data = await db
-      .collection("pins")
-      .where(
-        firebase.firestore.FieldPath.documentId(),
-        "==",
-        this.props.match.params.id
-      )
-      .get();
-
-    let item = data.docs.map((doc) => {
-      this.setState({
-        latitude: doc.data().location._lat,
-        longitude: doc.data().location._long,
-      });
-      return {
-        title: doc.data().title,
-        description: doc.data().description,
-        imgurl: doc.data().imgurl,
-        location: doc.data().location,
-        startDate: doc.data().startdate.replace("T", ", "),
-        endDate: doc.data().enddate.replace("T", ", "),
-        id: doc.id,
-      };
-    });
-
-    fetch(
-      "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" +
-        this.state.latitude +
-        "&lon=" +
-        this.state.longitude
-    )
-      .catch((e) => {
-        console.log(e);
-        this.setState({ address: "An error occured." });
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          this.setState({ address: "Unknown location" });
-        } else {
-          this.setState({ address: data.display_name, saveable: true });
-        }
-      });
-
+    
     this.setState({
       pin: item[0] ?? {
         title: "Not found",
         description: "There were no pins found with the specified ID",
       },
+      address: address.display_name ?? "Unable to identify location."
     });
   }
 
@@ -98,18 +61,18 @@ class DetailView extends Component {
     }
 
     setTimeout(() => {
-      this.props.history.push("/");
+      this.props.history.goBack();
     }, 400);
   }
 
   render() {
     return (
       <div className="content">
-        <Link to="/" className="back">
-          <IconButton>
+        {/* <Link to="/" className="back"> */}
+          <IconButton className="back" onClick={() => this.props.history.goBack()}>
             <ArrowBackIosIcon className="back-icon" />
           </IconButton>
-        </Link>
+        {/* </Link> */}
 
         <img src={this.state.pin.imgurl} className="img" alt="Not found" />
 
@@ -120,7 +83,7 @@ class DetailView extends Component {
           <div className="timestamp">
             <h5 className="text">
               <AccessTimeIcon />
-              {this.state.pin.startDate} - {this.state.pin.endDate}
+              Start date: {this.state.pin.startDate} - End date: {this.state.pin.endDate}
             </h5>
             <h5 className="text">
               <PlaceIcon />
@@ -132,10 +95,11 @@ class DetailView extends Component {
         <div className="actions">
           <Divider />
           <h3>{this.state.pin.description}</h3>
-
+          <Link to={"/edit/" + this.state.pin.id}>
           <Button onClick={this.editPin} color="primary" variant="contained">
             Edit
           </Button>
+          </Link>
           <Button
             onClick={this.deletePin}
             variant="outlined"

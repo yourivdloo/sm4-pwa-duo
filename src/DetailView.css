@@ -19,12 +19,15 @@
     z-index:999 !important;
     top:8vh !important;
     left:1vh !important;
-    background-color: rgba(189, 189, 189, 0.774);
-    border-radius: 20%;
-    outline: none;
+    background-color: rgba(141, 141, 141, 0.795) !important;
+    border-radius: 20% !important;
+    outline: none !important;
     margin-top: 1vh !important;
     /* height: 10vw !important;
     width: 10vw !important; */
+}
+.back:hover{
+    background-color: rgba(199, 199, 199, 0.048) !important;
 }
 
 .back-icon{
@@ -33,7 +36,7 @@
 }
 
 .title{
-    display:inline-block;
+    /* display:inline-block; */
     margin-left: 4%;
     /* text-align:left; */
     float:left;
@@ -41,7 +44,7 @@
 }
 
 .timestamp{
-    display:inline-block;
+    /* display:inline-block; */
     float:right;
     margin-right: 4%;
     margin-left: 3.75%;
@@ -49,14 +52,14 @@
     text-align: left;
 }
 
-.floater{
+/* .floater{
     /* width:85%;
     display: inline-block; */
-}
+/* } */
 
 .actions{
     clear:both;
 }
 
-.text{
-}
+/* .text{
+} */

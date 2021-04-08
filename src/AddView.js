@@ -10,6 +10,7 @@ import moment from "moment";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import 'firebase/storage';
+import firebaseService from "./FirebaseService";
 import constants from "./constants"
 import Typography from "@material-ui/core/Typography";
 
@@ -34,25 +35,19 @@ class AddView extends Component {
     this.save = this.save.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     var lat = this.props.location.state ? this.props.location.state.latitude : 0;
     var long = this.props.location.state ? this.props.location.state.longitude : 0;
 
     this.setState({latitude: lat, longitude: long})
 
-    fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + lat.toString() + '&lon=' + long.toString())
-    .catch((e) => {
-      console.log(e);
-      this.setState({address: "An error occured."})
-    })
-    .then(response => response.json())
-      .then(data => {
-         if(data.error){
+    let address = await firebaseService.getLocation(lat, long);
+
+        if(address){
+          this.setState({address: address.display_name, saveable: true})
+        } else {
           this.setState({address: "Unable to identify location."})
-         } else {
-         this.setState({address: data.display_name, saveable: true})
-         }
-        });
+        }
   }
 
   handleChange = (e) => {
@@ -105,11 +100,13 @@ class AddView extends Component {
 
       db.collection("pins").add(newItem);
       self.props.history.push("/");
-     } , 1000);
+     } , 2000);
   }
 
   showImage = (e) =>{
     if(e.target.files.length !== 0){
+      console.log("Image has been changed")
+      console.log(e.target.files)
       this.setState({image: URL.createObjectURL(e.target.files[0]), imageAsFile: e.target.files[0]})
     }
   }
@@ -136,10 +133,10 @@ class AddView extends Component {
         </label>
         { this.state.image != null ? <DeleteIcon onClick={() => this.setState({image: null, imageAsFile: null})} className="delete"/> : <div></div>}
 
-        <Typography variant="h7">
+        <Typography>
           {this.state.address}
         </Typography>
-        <br/><br/>
+        <br/>
         <TextField
           id="title"
           className="textField"
