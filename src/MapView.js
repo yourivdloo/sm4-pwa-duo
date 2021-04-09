@@ -38,8 +38,7 @@ class MapView extends Component {
       navigator.geolocation.getCurrentPosition(function (location) {
         let latitude = location.coords.latitude;
         let longitude = location.coords.longitude;
-
-        // map.target.panTo(new L.LatLng(latitude, longitude))
+        
         self.state.map.target.panTo(new L.LatLng(latitude, longitude));
 
         var marker = L.marker([latitude, longitude], {
@@ -104,7 +103,7 @@ class MapView extends Component {
               position={[position.location._lat, position.location._long]}
             >
               <Popup>
-                <Link to={"/" + position.id}>
+                <Link to={"/details/" + position.id}>
                   {position.title}
                   <br />
                 </Link>

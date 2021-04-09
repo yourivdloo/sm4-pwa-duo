@@ -7,7 +7,6 @@ import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import IconButton from "@material-ui/core/IconButton";
-import { Link } from "react-router-dom";
 import "firebase/storage";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import PlaceIcon from "@material-ui/icons/Place";
@@ -22,6 +21,7 @@ class DetailView extends Component {
       address: "Unknown location",
       latitude: 0,
       longitude: 0,
+      editable: false
     };
 
     this.deletePin = this.deletePin.bind(this);
@@ -37,6 +37,8 @@ class DetailView extends Component {
 
       item[0].startDate = item[0].startDate.replace("T", ", ")
       item[0].endDate = item[0].endDate.replace("T", ", ")
+
+      this.setState({editable: true})
     }
     
     this.setState({
@@ -95,13 +97,12 @@ class DetailView extends Component {
         <div className="actions">
           <Divider />
           <h3>{this.state.pin.description}</h3>
-          <Link to={"/edit/" + this.state.pin.id}>
-          <Button onClick={this.editPin} color="primary" variant="contained">
+          <Button onClick={() => this.props.history.push("/edit/" + this.state.pin.id)} color="primary" variant="contained" disabled={!this.state.editable}>
             Edit
           </Button>
-          </Link>
           <Button
             onClick={this.deletePin}
+            disabled={!this.state.editable}
             variant="outlined"
             color="secondary"
             className="delete-btn"

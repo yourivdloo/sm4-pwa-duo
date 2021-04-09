@@ -44,9 +44,10 @@
     width: 40%;
 }
 
-.cancel{
-    color: red;
-}
+/* .cancel{
+    /* color: red !important; */
+    /* text-decoration-line: underline !important;
+}  */
 
 .saveBtn{
     width: 180px!important;

@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import "./AddView.css";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { Link } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import firebaseService from "./FirebaseService";
 import Typography from "@material-ui/core/Typography";
@@ -30,7 +29,8 @@ class EditView extends Component {
       saveable: false,
       image: null,
       imageAsFile: null,
-      imageUrl: null
+      imageUrl: null,
+      sameImage: true
     };
 
     this.save = this.save.bind(this)
@@ -54,11 +54,11 @@ class EditView extends Component {
         title: "Not found",
         description: "There were no pins found with the specified ID",
       },
-      image: item[0].imgurl ?? null,
-      title: item[0].title ?? "Not found",
-      description: item[0].description ?? "No pin was found with the specified ID.",
-      startDate: item[0].startDate ?? moment(new Date()).format("YYYY-MM-DDTkk:mm"),
-      endDate: item[0].endDate ?? moment(new Date()).format("YYYY-MM-DDTkk:mm")
+      image: item[0] ? item[0].imgurl : null,
+      title: item[0] ? item[0].title : "Not found",
+      description: item[0] ? item[0].description : "No pin was found with the specified ID.",
+      startDate: item[0] ? item[0].startDate : moment(new Date()).format("YYYY-MM-DDTkk:mm"),
+      endDate: item[0] ? item[0].endDate : moment(new Date()).format("YYYY-MM-DDTkk:mm")
     });
 
     if (address) {
@@ -73,7 +73,10 @@ class EditView extends Component {
 
     const storage = firebase.storage();
 
-    if(this.state.imageAsFile !== null && this.state.pin.imgurl !== this.state.image){
+    console.log(this.state.pin.imgurl);
+    console.log(this.state.image)
+
+      if(!this.state.sameImage && this.state.imageAsFile !== null && this.state.pin.imgurl !== this.state.image){
         const uploadTask = storage.ref(`/images/${this.state.imageAsFile.name}`).put(this.state.imageAsFile)
   
         uploadTask.on('state_changed', 
@@ -92,12 +95,12 @@ class EditView extends Component {
              self.setState({imageUrl: fireBaseUrl}) 
            })
         })
-      } else if(!this.state.imageAsFile){
+      } else if(!this.state.sameImage && !this.state.imageAsFile){
           console.log("There is no image, default is to be inserted")
         this.setState({imageUrl: constants.defaultImg})
       }
 
-      if (this.state.pin.imgurl !== constants.defaultImg) {
+      if (!this.state.sameImage && this.state.pin.imgurl !== constants.defaultImg) {
         let pictureRef = storage.refFromURL(this.state.pin.imgurl);
         pictureRef.delete();
       }
@@ -138,6 +141,7 @@ class EditView extends Component {
       this.setState({
         image: URL.createObjectURL(e.target.files[0]),
         imageAsFile: e.target.files[0],
+        sameImage: false
       });
     }
   };
@@ -169,7 +173,7 @@ class EditView extends Component {
         </label>
         {this.state.image != null ? (
           <DeleteIcon
-            onClick={() => this.setState({ image: null, imageAsFile: null })}
+            onClick={() => this.setState({ image: null, imageAsFile: null, sameImage: false })}
             className="delete"
           />
         ) : (
@@ -236,9 +240,9 @@ class EditView extends Component {
           Save changes
         </Button>
         <br />
-        <Link to="/" className="cancel">
+        <Button onClick={() => this.props.history.goBack()} color="secondary">
           Cancel
-        </Link>
+        </Button>
       </div>
     );
   }

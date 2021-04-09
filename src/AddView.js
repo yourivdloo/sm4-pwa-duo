@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import "./AddView.css";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Link } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import moment from "moment";
 import firebase from "firebase/app";
@@ -195,9 +194,9 @@ class AddView extends Component {
           Save
         </Button>
         <br />
-        <Link to="/" className="cancel">
+        <Button onClick={() => this.props.history.goBack()} color="secondary">
           Cancel
-        </Link>
+        </Button>
       </div>
     );
   }

@@ -24,7 +24,7 @@ class ListView extends Component{
         return(
             <div className="content">   
                 {this.state.pins.map((pin) => 
-                <Link key={pin.id} to={"/" + pin.id}>
+                <Link key={pin.id} to={"/details/" + pin.id}>
                    <Card className="card" key={pin.id} variant="outlined">
                    <CardContent>
                        <div className="textLeft">

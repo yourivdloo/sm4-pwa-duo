@@ -1,0 +1,38 @@
+.not-found{
+    background-color: rgba(120, 159, 231, 0.377);
+    border-radius: 100%;
+    width: 95vw;
+    max-width: 500px;
+    height: 95vw;
+    max-height: 500px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    top:8vh;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin: auto;
+}   
+
+.main{
+    height:92vh;
+    /* background-color: rgb(255, 187, 0); */
+    background-image: url("assets/notfound.jpg");
+    background-size: cover;
+}
+
+.not-found-content{
+    display: inline-block;
+    position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+    /* vertical-align: center; 
+    top: 35%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin: auto; */
+}
