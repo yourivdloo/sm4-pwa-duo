@@ -4,38 +4,39 @@ const appFiles=[
   "offline.css",
   "offline.jpg",
   "manifest.json",
-  "scripts.js"
+  "scripts.js",
+  "Loading_2.gif"
 ];
 
 self.addEventListener("install",(installing)=>{
-    console.log("Service Worker: I am being installed, hello world!");
+    // console.log("Service Worker: I am being installed, hello world!");
   
     installing.waitUntil(
     caches.open(cacheName).then((cache)=>{
-      console.log("Service Worker: Caching important offline files");
+      // console.log("Service Worker: Caching important offline files");
       return cache.addAll(appFiles);
     })
   );
   });
   
   self.addEventListener("activate",(activating)=>{    
-    console.log("Service Worker: All systems online, ready to go!");
+    // console.log("Service Worker: All systems online, ready to go!");
   });
   
   self.addEventListener("fetch",(fetching)=>{   
-    console.log("Service Worker: User threw a ball, I need to fetch it!");
+    // console.log("Service Worker: User threw a ball, I need to fetch it!");
     fetching.respondWith(
       caches.match(fetching.request.url).then((response)=>{
-        console.log("Service Worker: Fetching resource "+fetching.request.url);
+        // console.log("Service Worker: Fetching resource "+fetching.request.url);
         return response||fetch(fetching.request).then((response)=>{
-          console.log("Service Worker: Resource "+fetching.request.url+" not available in cache");
+          // console.log("Service Worker: Resource "+fetching.request.url+" not available in cache");
           return caches.open(fetching).then((cache)=>{
-              console.log("Service Worker: Caching (new) resource "+fetching.request.url);
+              // console.log("Service Worker: Caching (new) resource "+fetching.request.url);
               //cache.put(fetching.request,response.clone());
             return response;
           });
         }).catch(function(){      
-          console.log(fetching.request.mode);
+          // console.log(fetching.request.mode);
           //Do something else with the request (respond with a different cached file)
           if(fetching.request.mode == "navigate"){
             return caches.match("offline.html")

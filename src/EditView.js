@@ -73,9 +73,6 @@ class EditView extends Component {
 
     const storage = firebase.storage();
 
-    console.log(this.state.pin.imgurl);
-    console.log(this.state.image)
-
       if(!this.state.sameImage && this.state.imageAsFile !== null && this.state.pin.imgurl !== this.state.image){
         const uploadTask = storage.ref(`/images/${this.state.imageAsFile.name}`).put(this.state.imageAsFile)
   
@@ -91,12 +88,10 @@ class EditView extends Component {
           // gets the download url then sets the image from firebase as the value for the imgUrl key:
           storage.ref('images').child(this.state.imageAsFile.name).getDownloadURL()
            .then(fireBaseUrl => {
-               console.log("New image has been uploaded, changing url in state")
              self.setState({imageUrl: fireBaseUrl}) 
            })
         })
       } else if(!this.state.sameImage && !this.state.imageAsFile){
-          console.log("There is no image, default is to be inserted")
         this.setState({imageUrl: constants.defaultImg})
       }
 
@@ -120,7 +115,6 @@ class EditView extends Component {
           startdate: self.state.startDate,
           enddate: self.state.endDate,
         };
-        console.log(newItem)
   
         db.collection('pins').doc(self.state.pin.id).update(newItem)
         self.props.history.push("/");
@@ -136,8 +130,6 @@ class EditView extends Component {
 
   showImage = (e) => {
     if (e.target.files.length !== 0) {
-        console.log("Image has been changed")
-        console.log(e.target.files)
       this.setState({
         image: URL.createObjectURL(e.target.files[0]),
         imageAsFile: e.target.files[0],

@@ -105,7 +105,7 @@ function Navbar() {
   const navigate = (index) => {
     switch (index) {
       case 2:
-        history.push("/future");
+        history.push("/timeline");
         handleDrawerClose();
         break;
       case 1:
@@ -170,7 +170,7 @@ function Navbar() {
         </div>
         <Divider />
         <List>
-          {["Map", "List", "Future"].map((text, index) => (
+          {["Map", "List", "Timeline"].map((text, index) => (
             <ListItem button onClick={() => navigate(index)} key={index}>
               <ListItemIcon>
                 {index === 0 ? <MapIcon /> : null}

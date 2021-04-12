@@ -1,0 +1,43 @@
+.button {
+    height: 80% !important;
+    width: 25% !important;
+    display: inline-block !important; 
+}
+
+.form-control {
+    width: 70% !important;
+    height: 80% !important;
+    margin-right: 2vw !important;
+}
+
+.form{
+  text-align: center;
+  margin-top: 2vh;
+  /* height: 9vh; */
+  flex: 1;
+  display: flex;
+  margin-right: 1vw !important;
+  margin-left: 3vw !important;
+  /* display: inline-block; */
+}
+
+.fullpage{
+  text-align:center;
+  width: 100%;
+  height: 92vh;
+  display:flex;
+  flex-direction: column;
+}
+
+.timelineLeft{
+  flex: 0.25 !important
+}
+
+.list{
+  flex: 9;
+  overflow-y: auto;
+}
+
+.error{
+  display: none;
+}

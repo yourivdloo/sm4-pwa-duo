@@ -52,7 +52,6 @@ class DetailView extends Component {
 
   deletePin() {
     const db = firebase.firestore();
-    console.log(this.state.pin);
 
     db.collection("pins").doc(this.state.pin.id).delete();
 

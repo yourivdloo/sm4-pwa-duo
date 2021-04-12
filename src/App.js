@@ -6,7 +6,7 @@ import AddView from "./AddView";
 import DetailView from "./DetailView";
 import ListView from "./ListView";
 import EditView from "./EditView";
-import FutureView from "./FutureView";
+import TimelineView from "./TimelineView";
 import NotFound from "./NotFound";
 import Navbar from "./Navbar";
 
@@ -19,7 +19,7 @@ function App() {
           <Route exact from="/" component={MapView} />
           <Route exact path="/new" component={AddView} />
           <Route exact path="/list" component={ListView} />
-          <Route exact path="/future" component={FutureView}/>
+          <Route exact path="/timeline" component={TimelineView}/>
           <Route exact path="/edit/:id" component={EditView} />
           <Route exact path="/details/:id" component={DetailView} />
           <Route component={NotFound}/>
