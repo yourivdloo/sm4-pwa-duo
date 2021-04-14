@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import L from "leaflet";
-import "./MapView.css";
 import fence from "./assets/fence.png";
 import pin from "./assets/pin.png";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Link } from "react-router-dom";
 import firebaseService from "./FirebaseService";
+import { Dialog, DialogContent, DialogContentText, DialogActions, DialogTitle, Button } from "@material-ui/core";
+import "./MapView.css";
 
 class MapView extends Component {
   constructor() {
@@ -14,14 +15,15 @@ class MapView extends Component {
       markers: [],
       center: { lat: 51.505, lng: -0.09 },
       map: null,
+      dialog: false
     };
 
     this.goToLocation = this.goToLocation.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   async componentDidMount() {
     let items = await firebaseService.findAll();
-
     this.setState({ markers: items });
   }
 
@@ -51,14 +53,37 @@ class MapView extends Component {
         }).addTo(self.state.map.target);
         marker.bindPopup("Your current location");
         marker.openPopup();
+      }, function(){
+        self.setState({dialog:true})
       });
     }
+  }
+
+  handleClose(){
+    this.setState({dialog: false})
   }
 
   render() {
     const self = this;
     return (
       <div className="map-container">
+        <Dialog
+        open={this.state.dialog}
+        onClose={this.handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"We cannot get your location"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            It looks like you have blocked us from using your location. Without your location, we cannot provide you with information about construction work near you.
+             Please allow access to your location and reload the app.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+            <Button color="primary" onClick={this.handleClose}>I understand</Button>
+        </DialogActions>
+      </Dialog>
         <Link
           to={{
             pathname: "/new",
@@ -70,7 +95,6 @@ class MapView extends Component {
         >
           <button className="btn">+</button>
         </Link>
-        {/* <button onClick={this.goToLocation} className="btn2">Get location</button> */}
         <div className="center"></div>
         <MapContainer
           className="map"

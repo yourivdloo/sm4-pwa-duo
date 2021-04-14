@@ -30,4 +30,45 @@
 
 .content{
     overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
 }
+
+.scrollIcon {
+    display: inline-block !important;
+    margin-right: auto !important;
+  }
+  
+  .scrollText {
+    display: inline-block;
+    margin-left: auto;
+  }
+  
+  .scrollBtn {
+    display: flex;
+    align-items: center;
+    text-align: center;
+  
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+  
+    position: absolute;
+    top: 8vh;
+    left: 0;
+    right: 0;
+    margin: auto;
+  
+    z-index: 999;
+  
+    width: 175px;
+    height: 35px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-width: 1px;
+    border-color: rgb(0, 0, 0);
+    color: white;
+    outline: none;
+    background-color: rgba(7, 23, 255, 0.555);
+    cursor: pointer;
+  }
+  

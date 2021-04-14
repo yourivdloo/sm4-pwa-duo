@@ -1,43 +1,112 @@
 .button {
-    height: 80% !important;
-    width: 25% !important;
-    display: inline-block !important; 
+  height: 80% !important;
+  width: 25% !important;
+  display: inline-block !important;
 }
 
 .form-control {
-    width: 70% !important;
-    height: 80% !important;
-    margin-right: 2vw !important;
+  width: 70% !important;
+  height: 80% !important;
+  margin-right: 2vw !important;
 }
 
-.form{
+.form {
   text-align: center;
   margin-top: 2vh;
-  /* height: 9vh; */
   flex: 1;
   display: flex;
   margin-right: 1vw !important;
   margin-left: 3vw !important;
-  /* display: inline-block; */
 }
 
-.fullpage{
-  text-align:center;
+.fullpage {
+  text-align: center;
   width: 100%;
   height: 92vh;
-  display:flex;
+  display: flex;
   flex-direction: column;
 }
 
-.timelineLeft{
-  flex: 0.25 !important
+.timelineLeft {
+  flex: 0.25 !important;
 }
 
-.list{
+.list {
   flex: 9;
   overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
-.error{
+.loading{
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  background-color: rgb(189, 189, 189);
+
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+
+  position: absolute;
+  top: 19vh;
+  left: 0;
+  right: 0;
+  margin: auto;
+
+  z-index: 999;
+
+  width: 175px;
+  height: 35px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  border-width: 1px;
+}
+
+.loading-text{
+  display: inline-block;
+  margin: auto;
+}
+
+.error {
+  flex: 9;
   display: none;
+}
+
+.scroll-icon {
+  display: inline-block !important;
+  margin-right: auto !important;
+}
+
+.scroll-text {
+  display: inline-block;
+  margin-left: auto;
+}
+
+.scroll-btn {
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+
+  position: absolute;
+  top: 19vh;
+  left: 0;
+  right: 0;
+  margin: auto;
+
+  z-index: 999;
+
+  width: 175px;
+  height: 35px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  border-width: 1px;
+  border-color: rgb(0, 0, 0);
+  color: white;
+  outline: none;
+  background-color: rgba(7, 23, 255, 0.555);
+  cursor: pointer;
 }

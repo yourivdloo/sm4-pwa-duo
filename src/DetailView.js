@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import constants from "./constants";
 import firebase from "firebase/app";
 import "firebase/firestore";
-import "./DetailView.css";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
@@ -11,6 +10,7 @@ import "firebase/storage";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import PlaceIcon from "@material-ui/icons/Place";
 import firebaseService from "./FirebaseService";
+import "./DetailView.css";
 
 class DetailView extends Component {
   constructor(props) {

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import "./AddView.css";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
@@ -12,6 +11,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/storage";
 import constants from "./constants";
+import "./AddView.css";
 
 class EditView extends Component {
   constructor(props) {
@@ -72,6 +72,7 @@ class EditView extends Component {
     const self = this;
 
     const storage = firebase.storage();
+    let db = firebase.firestore();
 
       if(!this.state.sameImage && this.state.imageAsFile !== null && this.state.pin.imgurl !== this.state.image){
         const uploadTask = storage.ref(`/images/${this.state.imageAsFile.name}`).put(this.state.imageAsFile)
@@ -89,36 +90,74 @@ class EditView extends Component {
           storage.ref('images').child(this.state.imageAsFile.name).getDownloadURL()
            .then(fireBaseUrl => {
              self.setState({imageUrl: fireBaseUrl}) 
+
+             if (!this.state.sameImage && this.state.pin.imgurl !== constants.defaultImg) {
+              let pictureRef = storage.refFromURL(this.state.pin.imgurl);
+              pictureRef.delete();
+            }
+
+             let newItem = {
+              id: self.state.pin.id,
+              title: self.state.title,
+              description: self.state.description,
+              imgurl: fireBaseUrl,
+              location: new firebase.firestore.GeoPoint(
+                self.state.latitude,
+                self.state.longitude
+              ),
+              startdate: self.state.startDate,
+              enddate: self.state.endDate,
+            };
+      
+            db.collection('pins').doc(self.state.pin.id).update(newItem)
+            self.props.history.push("/");
            })
         })
       } else if(!this.state.sameImage && !this.state.imageAsFile){
         this.setState({imageUrl: constants.defaultImg})
-      }
 
-      if (!this.state.sameImage && this.state.pin.imgurl !== constants.defaultImg) {
-        let pictureRef = storage.refFromURL(this.state.pin.imgurl);
-        pictureRef.delete();
-      }
-      
-      let db = firebase.firestore();
+        if (!this.state.sameImage && this.state.pin.imgurl !== constants.defaultImg) {
+          let pictureRef = storage.refFromURL(this.state.pin.imgurl);
+          pictureRef.delete();
+        }
 
-      setTimeout(() => { 
-        let newItem = {
-          id: self.state.pin.id,
-          title: self.state.title,
-          description: self.state.description,
-          imgurl: self.state.imageUrl ?? self.state.pin.imgurl,
-          location: new firebase.firestore.GeoPoint(
-            self.state.latitude,
-            self.state.longitude
-          ),
-          startdate: self.state.startDate,
-          enddate: self.state.endDate,
-        };
-  
-        db.collection('pins').doc(self.state.pin.id).update(newItem)
-        self.props.history.push("/");
-       } , 2000);
+          let newItem = {
+            id: self.state.pin.id,
+            title: self.state.title,
+            description: self.state.description,
+            imgurl: constants.defaultImg,
+            location: new firebase.firestore.GeoPoint(
+              self.state.latitude,
+              self.state.longitude
+            ),
+            startdate: self.state.startDate,
+            enddate: self.state.endDate,
+          };
+    
+          db.collection('pins').doc(self.state.pin.id).update(newItem)
+          self.props.history.push("/");
+      } else {
+        if (!this.state.sameImage && this.state.pin.imgurl !== constants.defaultImg) {
+          let pictureRef = storage.refFromURL(this.state.pin.imgurl);
+          pictureRef.delete();
+        }
+
+          let newItem = {
+            id: self.state.pin.id,
+            title: self.state.title,
+            description: self.state.description,
+            imgurl: self.state.pin.imgurl,
+            location: new firebase.firestore.GeoPoint(
+              self.state.latitude,
+              self.state.longitude
+            ),
+            startdate: self.state.startDate,
+            enddate: self.state.endDate,
+          };
+    
+          db.collection('pins').doc(self.state.pin.id).update(newItem)
+          self.props.history.push("/");
+      }
   }
 
   handleChange = (e) => {

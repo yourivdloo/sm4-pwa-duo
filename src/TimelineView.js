@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
 import { Typography } from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -16,6 +14,7 @@ import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
 import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 import moment from "moment";
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import "./TimelineView.css";
 
 const places = [
@@ -48,9 +47,48 @@ class TimelineView extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  search() {
+  componentDidMount(){
+    if(localStorage.getItem('coords')){
+      this.setState({
+        coords:localStorage.getItem('coords'),
+        minLat: places[localStorage.getItem('coords')][0] - 0.075,
+        maxLat: places[localStorage.getItem('coords')][0] + 0.075,
+        minLong: places[localStorage.getItem('coords')][1] - 0.075,
+        maxLong: places[localStorage.getItem('coords')][1] + 0.075,
+        open: false,
+      });
+
+      this.search(localStorage.getItem('coords'));
+    }
+
+    document.getElementById('list').onscroll = () => this.readElementHeight()
+  }
+
+  readElementHeight(){
+    if(document.getElementById('list').scrollTop !== 0){
+      document.getElementById('scroll-btn').style.opacity = 1;
+    } else{
+      document.getElementById('scroll-btn').style.opacity = 0;
+    }
+  }
+
+  scrollToTop(){
+    document.getElementById('list').scrollTop = 0
+    document.getElementById('scroll-btn').style.opacity = 0;
+  }
+
+  search(optCoords) {
+    document.getElementById('loading').style.opacity = 1;
+
+    let coords;
+    if(!optCoords){ 
+      coords = this.state.coords
+    } else{
+      coords = optCoords;
+    }
+
     let cases = [];
-    if (this.state.coords !== 0) {
+    if (coords !== 0) {
       fetch(
         "https://open.data.amsterdam.nl/Cora/Geplande%20wegwerkzaamheden.json"
       )
@@ -78,6 +116,8 @@ class TimelineView extends Component {
           });
 
           this.setState({ results: cases });
+
+          document.getElementById('loading').style.opacity = 0;
         })
         .catch((e) =>{
             document.getElementById("list").style.display = 'none';
@@ -97,6 +137,7 @@ class TimelineView extends Component {
   }
 
   handleChange = (e) => {
+    localStorage.setItem('coords', e.target.value)
     this.setState({
       coords: e.target.value,
       minLat: places[e.target.value][0] - 0.075,
@@ -111,9 +152,6 @@ class TimelineView extends Component {
     return (
       <div className="fullpage">
         <div className="form">
-          {/* <Button className="button" onClick={this.handleOpen}>
-            Open the select
-          </Button> */}
           <FormControl className="form-control" variant="outlined">
             <InputLabel id="demo-controlled-open-select-label">
               Location to search
@@ -154,22 +192,14 @@ class TimelineView extends Component {
 
         <Divider />
 
+        <div className="loading" id="loading">
+            <span className="loading-text">Loading...</span>
+        </div>
+
         <div className="list" id="list">
         <Timeline align="left">
           {this.state.results.map((result) => (
-            <TimelineItem>
-            {/* <Card variant="outlined" className="caseCard">
-              <CardContent>
-                <Typography variant="h5">
-                  {result.properties.STARTDATUM} to{" "}
-                  {result.properties.EINDDATUM}
-                </Typography>
-                {result.properties.SOORTWERKZAAMHEDEN}
-                <Typography color="textSecondary">
-                  {result.properties.LOCATIEWERKZAAMHEDEN}
-                </Typography>
-              </CardContent>
-            </Card> */}
+            <TimelineItem key={result.WIORPR_ID}>
             <TimelineOppositeContent className="timelineLeft">
             <Typography color="textSecondary">{result.properties.STARTDATUM.replace(/-/g, "/")} -{" "}
                   {result.properties.EINDDATUM.replace(/-/g, "/")}</Typography>
@@ -191,6 +221,7 @@ class TimelineView extends Component {
         <div className="error" id="error">
             An error has occured while fetching data. Please try again later.
         </div>
+        <button className="scroll-btn" id="scroll-btn" onClick={() => this.scrollToTop()}> <span className="scroll-text">Scroll to top</span> <ArrowUpwardIcon className="scroll-icon"/></button>
       </div>
     );
   }

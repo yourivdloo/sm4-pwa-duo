@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import MapView from "./MapView";
 import AddView from "./AddView";
@@ -9,8 +8,10 @@ import EditView from "./EditView";
 import TimelineView from "./TimelineView";
 import NotFound from "./NotFound";
 import Navbar from "./Navbar";
+import "./App.css";
 
 function App() {
+
   return (
     <div className="App">
       <Router>

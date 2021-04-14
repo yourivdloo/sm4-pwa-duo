@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import "./AddView.css";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from "@material-ui/core/IconButton";
@@ -12,6 +11,7 @@ import 'firebase/storage';
 import firebaseService from "./FirebaseService";
 import constants from "./constants"
 import Typography from "@material-ui/core/Typography";
+import "./AddView.css";
 
 class AddView extends Component {
   constructor(props) {
@@ -59,6 +59,7 @@ class AddView extends Component {
   save() {
     const self = this;
     const storage = firebase.storage();
+    let db = firebase.firestore();
 
     if(this.state.imageAsFile !== null){
       const uploadTask = storage.ref(`/images/${this.state.imageAsFile.name}`).put(this.state.imageAsFile)
@@ -76,28 +77,41 @@ class AddView extends Component {
         storage.ref('images').child(this.state.imageAsFile.name).getDownloadURL()
          .then(fireBaseUrl => {
            self.setState({imageUrl: fireBaseUrl}) 
+
+           let newItem = {
+            title: self.state.title,
+            description: self.state.description,
+            imgurl: fireBaseUrl,
+            location: new firebase.firestore.GeoPoint(
+              self.state.latitude,
+              self.state.longitude
+            ),
+            startdate: self.state.startDate,
+            enddate: self.state.endDate,
+          };
+    
+          db.collection("pins").add(newItem);
+          self.props.history.push("/");
          })
       })
+    } else {
+      setTimeout(() => { 
+        let newItem = {
+          title: self.state.title,
+          description: self.state.description,
+          imgurl: self.state.imageUrl,
+          location: new firebase.firestore.GeoPoint(
+            self.state.latitude,
+            self.state.longitude
+          ),
+          startdate: self.state.startDate,
+          enddate: self.state.endDate,
+        };
+  
+        db.collection("pins").add(newItem);
+        self.props.history.push("/");
+       } , 2000);
     }
-    
-    let db = firebase.firestore();
-
-    setTimeout(() => { 
-      let newItem = {
-        title: self.state.title,
-        description: self.state.description,
-        imgurl: self.state.imageUrl,
-        location: new firebase.firestore.GeoPoint(
-          self.state.latitude,
-          self.state.longitude
-        ),
-        startdate: self.state.startDate,
-        enddate: self.state.endDate,
-      };
-
-      db.collection("pins").add(newItem);
-      self.props.history.push("/");
-     } , 2000);
   }
 
   showImage = (e) =>{

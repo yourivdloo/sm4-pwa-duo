@@ -23,9 +23,8 @@
     border-radius: 20% !important;
     outline: none !important;
     margin-top: 1vh !important;
-    /* height: 10vw !important;
-    width: 10vw !important; */
 }
+
 .back:hover{
     background-color: rgba(199, 199, 199, 0.048) !important;
 }
@@ -36,30 +35,17 @@
 }
 
 .title{
-    /* display:inline-block; */
     margin-left: 4%;
-    /* text-align:left; */
     float:left;
-    /* width:40%; */
 }
 
 .timestamp{
-    /* display:inline-block; */
     float:right;
     margin-right: 4%;
     margin-left: 3.75%;
-    /* width:40%; */
     text-align: left;
 }
-
-/* .floater{
-    /* width:85%;
-    display: inline-block; */
-/* } */
 
 .actions{
     clear:both;
 }
-
-/* .text{
-} */

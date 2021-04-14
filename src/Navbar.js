@@ -1,13 +1,12 @@
 import React from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Link, useHistory } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-// import Button from "@material-ui/core/Button";
+import RefreshIcon from '@material-ui/icons/Refresh';
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { Link, useHistory } from "react-router-dom";
-
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -146,6 +145,15 @@ function Navbar() {
             Work in progress
           </Typography>
           {/* <Button color="inherit">Login</Button> */}
+          <IconButton
+            color="inherit"
+            aria-label="refresh"
+            onClick={() => history.go(0)}
+            edge="start"
+            className={clsx(classes.menuButton, open && classes.hide)}
+          >
+            <RefreshIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
 
@@ -210,6 +218,7 @@ function Navbar() {
           <br />
         </div>
       </Drawer>
+      
     </div>
   );
 }

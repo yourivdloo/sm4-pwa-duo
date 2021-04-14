@@ -1,7 +1,6 @@
 .image{
     min-height: 200px;
     max-height: 400px;
-    /* width: 50%; */
     min-width: 300px;
     background-color: grey !important;
     border-radius: 30px !important;
@@ -16,10 +15,6 @@
     width: 300px !important;
     object-fit: cover !important;
 }
-
-/* .image:active{
-        background-color: black!important;
-} */
 
 .content{
     text-align: center;
@@ -43,10 +38,6 @@
 .dateField{
     width: 40%;
 }
-
-/* .cancel{
-    color: red;
-} */
 
 .saveBtn{
     width: 180px!important;
