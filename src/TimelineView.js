@@ -121,6 +121,7 @@ class TimelineView extends Component {
         })
         .catch((e) =>{
             document.getElementById("list").style.display = 'none';
+            document.getElementById('loading').style.opacity = 0;
             document.getElementById("error").style.display = 'block';
         });
     } else {

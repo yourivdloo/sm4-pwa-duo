@@ -34,6 +34,10 @@
     scroll-behavior: smooth;
 }
 
+.noList{
+    margin-top: 4vh
+}
+
 .scrollIcon {
     display: inline-block !important;
     margin-right: auto !important;

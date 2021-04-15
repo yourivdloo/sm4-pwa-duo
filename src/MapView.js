@@ -38,8 +38,16 @@ class MapView extends Component {
     const self = this;
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (location) {
+        self.setState({hasAnswered: true})
         let latitude = location.coords.latitude;
         let longitude = location.coords.longitude;
+
+        self.state.map.target.dragging.enable()
+        self.state.map.target.touchZoom.enable()
+        self.state.map.target.scrollWheelZoom.enable()
+        self.state.map.target.doubleClickZoom.enable()
+        self.state.map.target.boxZoom.enable()
+        self.state.map.target.keyboard.enable()
         
         self.state.map.target.panTo(new L.LatLng(latitude, longitude));
 
@@ -55,6 +63,12 @@ class MapView extends Component {
         marker.openPopup();
       }, function(){
         self.setState({dialog:true})
+        self.state.map.target.dragging.enable()
+        self.state.map.target.touchZoom.enable()
+        self.state.map.target.scrollWheelZoom.enable()
+        self.state.map.target.doubleClickZoom.enable()
+        self.state.map.target.boxZoom.enable()
+        self.state.map.target.keyboard.enable()
       });
     }
   }
@@ -98,11 +112,19 @@ class MapView extends Component {
         <div className="center"></div>
         <MapContainer
           className="map"
+          dragging={false}
+          touchZoom={false}
+          doubleClickZoom={false}
+          scrollWheelZoom={false}
+          boxZoom={false}
+          keyboard={false}
+          zoomControl={false}
           minZoom={8}
           zoom={20}
           center={this.state.center}
           whenReady={(map) => {
             this.setState({ map: map });
+            console.log(map);
             map.target.on("drag", function (e) {
               self.setState({ center: map.target.getCenter() });
             });
@@ -117,7 +139,7 @@ class MapView extends Component {
           }}
         >
           <TileLayer
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors. Do not use this application while driving!'
             url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
           ></TileLayer>
           {this.state.markers.map((position, idx) => (

@@ -71,6 +71,7 @@
 .error {
   flex: 9;
   display: none;
+  margin-top: 4vh;
 }
 
 .scroll-icon {
